@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const commandDiv = document.createElement('div');
-            commandDiv.className = 'bg-gray-800 bg-opacity-75 p-4 relative border border-green-500';
+            commandDiv.className = 'bg-gray-800 bg-opacity-75 p-4 relative';
             const textareaId = `command-${shell.type}`;
             commandDiv.innerHTML = `
                 <label class="block text-sm font-bold mb-2 text-green-400">${shell.name}:</label>
