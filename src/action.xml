@@ -1,0 +1,5 @@
+<krpano>
+    <action name="test" autorun="preinit">
+        js(alert(document.domain));
+    </action>
+</krpano>
